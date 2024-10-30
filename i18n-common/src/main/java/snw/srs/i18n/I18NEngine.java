@@ -45,6 +45,16 @@ public interface I18NEngine<A, L, K, O> {
     O getTemplate(A audience, K key);
 
     /**
+     * Format a message using the message formatter backed by this engine.
+     *
+     * @param audience The audience
+     * @param key The message key
+     * @param args The arguments used to format the message
+     * @return The formatted message
+     */
+    String formatMessage(A audience, K key, Object... args);
+
+    /**
      * Send the translated message to the audience. <br>
      * The engine will format the out-coming message using the provided arguments
      * before sending it. <br>

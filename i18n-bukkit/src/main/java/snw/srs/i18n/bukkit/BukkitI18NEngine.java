@@ -43,12 +43,15 @@ public final class BukkitI18NEngine implements I18NEngine<Player, String, String
     }
 
     @Override
+    public String formatMessage(Player audience, String key, Object... args) {
+        String template = getTemplateOrAsIs(audience, key);
+        return messageFormatter.format(audience, template, args);
+    }
+
+    @Override
     public CompletableFuture<Void> sendMessage(Player audience, String key, Object... args) {
-        return CompletableFuture.supplyAsync(() -> getTemplateOrAsIs(audience, key))
-                .thenAcceptAsync(template -> {
-                    String formatted = messageFormatter.format(audience, template, args);
-                    // it is safe to send message asynchronously as it is just a packet operation
-                    audience.sendMessage(formatted);
-                });
+        // it is safe to send message asynchronously as it is just a packet operation
+        return CompletableFuture.supplyAsync(() -> formatMessage(audience, key, args))
+                .thenAcceptAsync(audience::sendMessage);
     }
 }

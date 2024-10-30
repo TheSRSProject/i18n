@@ -2,6 +2,7 @@ package snw.srs.i18n;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -11,8 +12,9 @@ import java.util.concurrent.CompletableFuture;
  * @param <L> Language representation type
  * @param <K> Translation key type
  * @param <O> Output message template type
+ * @param <R> Message argument type
  */
-public interface I18NEngine<A, L, K, O> {
+public interface I18NEngine<A, L, K, O, R> {
     /**
      * Get the language that the audience uses.
      *
@@ -52,7 +54,7 @@ public interface I18NEngine<A, L, K, O> {
      * @param args The arguments used to format the message
      * @return The formatted message
      */
-    String formatMessage(A audience, K key, Object... args);
+    String formatMessage(A audience, K key, Collection<R> args);
 
     /**
      * Send the translated message to the audience. <br>
@@ -65,5 +67,5 @@ public interface I18NEngine<A, L, K, O> {
      * @param key      The language key
      * @param args     The arguments used to format the message
      */
-    CompletableFuture<Void> sendMessage(A audience, K key, Object... args);
+    CompletableFuture<Void> sendMessage(A audience, K key, Collection<R> args);
 }

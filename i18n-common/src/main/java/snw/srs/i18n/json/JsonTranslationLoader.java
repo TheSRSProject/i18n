@@ -32,7 +32,7 @@ public abstract class JsonTranslationLoader
             return null;
         }
         Reader reader = bufferedReader(source);
-        Map<String, String> handle = gson.fromJson(reader, new TypeToken<>(getClass()) {
+        Map<String, String> handle = gson.fromJson(reader, new TypeToken<>() {
         });
         return new MapBackedTranslationMapping(handle);
     }

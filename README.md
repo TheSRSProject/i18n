@@ -12,6 +12,8 @@ Go to [their website](https://jitpack.io/#TheSRSProject/i18n) for usage.
 
 For Bukkit users, use `com.github.TheSRSProject.i18n:i18n-bukkit` as artifact coordinate.
 
+And please exclude Gson while compiling if you're targeting a MC version with Gson bundled.
+
 ### Where to begin
 
 See the following classes to start:

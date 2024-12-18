@@ -1,3 +1,6 @@
 rootProject.name = 'i18n'
 include 'i18n-common'
 include 'i18n-bukkit'
+include 'i18n-adventure'
+include 'i18n-bukkit-adventure'
+

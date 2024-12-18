@@ -1,6 +1,7 @@
 package snw.srs.i18n;
 
 import org.jetbrains.annotations.Nullable;
+import snw.srs.i18n.message.MessageSender;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -55,6 +56,13 @@ public interface I18NEngine<A, L, K, O, R> {
      * @return The formatted message
      */
     String formatMessage(A audience, K key, Collection<R> args);
+
+    /**
+     * Get the message sender used by this engine.
+     *
+     * @return The message sender
+     */
+    MessageSender<A> getMessageSender();
 
     /**
      * Send the translated message to the audience. <br>

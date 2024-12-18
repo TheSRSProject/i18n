@@ -3,8 +3,10 @@ package snw.srs.i18n.bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import snw.srs.i18n.I18NEngine;
+import snw.srs.i18n.bukkit.message.AsIsMessageSender;
 import snw.srs.i18n.data.storage.TranslationStorage;
 import snw.srs.i18n.formatter.MessageFormatter;
+import snw.srs.i18n.message.MessageSender;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
@@ -18,13 +20,24 @@ public final class BukkitI18NEngine implements I18NEngine<Player, String, String
     // Some formatter does not care about the audience object, so we use "? super Player"
     private final MessageFormatter<? super Player, String, String, Object> messageFormatter;
     private final TranslationStorage<String, String, String> translationStorage;
+    private final MessageSender<Player> messageSender;
 
+    @Deprecated
     public BukkitI18NEngine(
             MessageFormatter<? super Player, String, String, Object> messageFormatter,
             TranslationStorage<String, String, String> translationStorage
     ) {
+        this(messageFormatter, translationStorage, AsIsMessageSender.INSTANCE);
+    }
+
+    public BukkitI18NEngine(
+            MessageFormatter<? super Player, String, String, Object> messageFormatter,
+            TranslationStorage<String, String, String> translationStorage,
+            MessageSender<Player> messageSender
+    ) {
         this.messageFormatter = messageFormatter;
         this.translationStorage = translationStorage;
+        this.messageSender = messageSender;
     }
 
     @Override
@@ -53,6 +66,11 @@ public final class BukkitI18NEngine implements I18NEngine<Player, String, String
     public CompletableFuture<Void> sendMessage(Player audience, String key, Collection<Object> args) {
         // it is safe to send message asynchronously as it is just a packet operation
         return CompletableFuture.supplyAsync(() -> formatMessage(audience, key, args))
-                .thenAcceptAsync(audience::sendMessage);
+                .thenAcceptAsync(formatted -> getMessageSender().processAndSend(audience, formatted));
+    }
+
+    @Override
+    public MessageSender<Player> getMessageSender() {
+        return messageSender;
     }
 }

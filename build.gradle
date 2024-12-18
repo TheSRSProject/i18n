@@ -1,6 +1,2 @@
-plugins {
-    id 'java'
-}
-
 group = 'snw.srs.i18n'
 version = '1.0.0'

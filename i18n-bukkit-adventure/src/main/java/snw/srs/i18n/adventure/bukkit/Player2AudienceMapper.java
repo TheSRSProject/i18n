@@ -10,7 +10,7 @@ public interface Player2AudienceMapper {
 
     @Contract("_ -> new")
     static Player2AudienceMapper create(Plugin plugin) {
-        if (NativeAudienceMapper.AVAILABLE) {
+        if (Audience.class.isAssignableFrom(Player.class)) { // then we're on a platform with native Adventure support
             return NativeAudienceMapper.INSTANCE;
         } else {
             return new LegacyAudienceMapper(plugin);

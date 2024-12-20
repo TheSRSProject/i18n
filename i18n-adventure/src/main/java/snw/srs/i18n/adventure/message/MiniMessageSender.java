@@ -6,11 +6,11 @@ import snw.srs.i18n.message.MessageSender;
 
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 
-public enum MiniMessageSender implements MessageSender<Audience> {
+public enum MiniMessageSender implements MessageSender<Audience, String> {
     INSTANCE;
 
     @Override
-    public void processAndSend(Audience audience, String value) {
+    public void send(Audience audience, String value) {
         Component component = miniMessage().deserialize(value);
         audience.sendMessage(component);
     }

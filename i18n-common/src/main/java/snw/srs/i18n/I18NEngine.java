@@ -13,9 +13,10 @@ import java.util.concurrent.CompletableFuture;
  * @param <L> Language representation type
  * @param <K> Translation key type
  * @param <O> Output message template type
+ * @param <C> Message type
  * @param <R> Message argument type
  */
-public interface I18NEngine<A, L, K, O, R> {
+public interface I18NEngine<A, L, K, O, C, R> {
     /**
      * Get the language that the audience uses.
      *
@@ -55,14 +56,14 @@ public interface I18NEngine<A, L, K, O, R> {
      * @param args The arguments used to format the message
      * @return The formatted message
      */
-    String formatMessage(A audience, K key, Collection<R> args);
+    C formatMessage(A audience, K key, Collection<R> args);
 
     /**
      * Get the message sender used by this engine.
      *
      * @return The message sender
      */
-    MessageSender<A> getMessageSender();
+    MessageSender<A, C> getMessageSender();
 
     /**
      * Send the translated message to the audience. <br>

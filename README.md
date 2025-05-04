@@ -22,7 +22,7 @@ See the following classes to start:
 
 ## Licensing
 
-Copyright (C) 2024 SNWCreations, The SRS Project.
+Copyright (C) 2024, 2025 SNWCreations, The SRS Project.
 Licensed under Apache 2.0 license.
 
 See `LICENSE` file for more information.

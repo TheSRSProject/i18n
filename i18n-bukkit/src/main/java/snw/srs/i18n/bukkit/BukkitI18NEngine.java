@@ -42,8 +42,18 @@ public final class BukkitI18NEngine<C> implements I18NEngine<Player, String, Str
     }
 
     @Override
+    public String getTemplateByLanguageOrAsIs(String language, String key) {
+        return requireNonNullElse(getTemplateByLanguage(language, key), key);
+    }
+
+    @Override
     public @Nullable String getTemplate(Player audience, String key) {
         String language = getLanguage(audience);
+        return getTemplateByLanguage(language, key);
+    }
+
+    @Override
+    public @Nullable String getTemplateByLanguage(String language, String key) {
         return translationStorage.getOrLoad(language, key);
     }
 
@@ -63,5 +73,15 @@ public final class BukkitI18NEngine<C> implements I18NEngine<Player, String, Str
     @Override
     public MessageSender<Player, C> getMessageSender() {
         return messageSender;
+    }
+
+    @Override
+    public TranslationStorage<String, String, String> getTranslationStorage() {
+        return translationStorage;
+    }
+
+    @Override
+    public MessageFormatter<? super Player, String, C, Object> getMessageFormatter() {
+        return messageFormatter;
     }
 }

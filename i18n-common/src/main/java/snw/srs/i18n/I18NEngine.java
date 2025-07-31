@@ -1,6 +1,8 @@
 package snw.srs.i18n;
 
 import org.jetbrains.annotations.Nullable;
+import snw.srs.i18n.data.storage.TranslationStorage;
+import snw.srs.i18n.formatter.MessageFormatter;
 import snw.srs.i18n.message.MessageSender;
 
 import java.util.Collection;
@@ -37,6 +39,17 @@ public interface I18NEngine<A, L, K, O, C, R> {
     O getTemplateOrAsIs(A audience, K key);
 
     /**
+     * Attempts to look up the template matching the provided key
+     * and language. <br>
+     * The key will be wrapped as the output if lookup fails.
+     *
+     * @param language The language
+     * @param key      The translation key
+     * @return The translated content or the key as fallback
+     */
+    O getTemplateByLanguageOrAsIs(L language, K key);
+
+    /**
      * Attempts to get the translated content matching the provided key
      * and the language which the audience uses. <br>
      * {@code null} will be returned if lookup fails.
@@ -47,6 +60,18 @@ public interface I18NEngine<A, L, K, O, C, R> {
      */
     @Nullable
     O getTemplate(A audience, K key);
+
+    /**
+     * Attempts to get the translated content matching the provided key
+     * and language. <br>
+     * {@code null} will be returned if lookup fails.
+     *
+     * @param language The language
+     * @param key      The translation key
+     * @return The translated content or null if nothing could be returned
+     */
+    @Nullable
+    O getTemplateByLanguage(L language, K key);
 
     /**
      * Format a message using the message formatter backed by this engine.
@@ -64,6 +89,20 @@ public interface I18NEngine<A, L, K, O, C, R> {
      * @return The message sender
      */
     MessageSender<A, C> getMessageSender();
+
+    /**
+     * Get the translation storage used by this engine.
+     *
+     * @return The translation storage
+     */
+    TranslationStorage<L, K, O> getTranslationStorage();
+
+    /**
+     * Get the message formatter used by this engine.
+     *
+     * @return The message formatter
+     */
+    MessageFormatter<? super A, O, C, R> getMessageFormatter();
 
     /**
      * Send the translated message to the audience. <br>
